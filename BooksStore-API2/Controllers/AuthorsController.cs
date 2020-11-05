@@ -39,9 +39,10 @@ namespace BooksStore_API2.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAuthors()
         {
+            var location = GetControllerActionNames();
             try
             {
-                _logger.LogInfo("Attempted Get All Authors");
+                _logger.LogInfo($"{location}: Attemptd Call");
                 var authors = await _authorRepository.FindAll();
                 var response = _mapper.Map<IList<AuthorDTO>>(authors);
                 _logger.LogInfo("Successfully got all Authors");
@@ -65,9 +66,10 @@ namespace BooksStore_API2.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAuthor(int id)
         {
+            var location = GetControllerActionNames();
             try
             {
-                _logger.LogInfo($"Attempted to get authors with id:{id}");
+                _logger.LogInfo($"{location}: Attempted Call for id: {id}");
                 var author = await _authorRepository.FindById(id);
                 if(author == null)
                 {
@@ -95,6 +97,7 @@ namespace BooksStore_API2.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create([FromBody] AuthorCreateDTO authorDTO)
         {
+            var location = GetControllerActionNames();
             try
             {
                 _logger.LogWarn($"Author Submission Attemted");
@@ -115,6 +118,7 @@ namespace BooksStore_API2.Controllers
                     return internalError($"Author creation failed");
                 }
                 _logger.LogInfo("Author Cerated");
+                _logger.LogInfo($"{location}:{author}");
                 return Created("Create", new { author });
             }
             catch (Exception e)
@@ -202,6 +206,12 @@ namespace BooksStore_API2.Controllers
             {
                 return internalError($"{e.Message} - {e.InnerException}");
             }
+        }
+        private string GetControllerActionNames()
+        {
+            var controller = ControllerContext.ActionDescriptor.ControllerName;
+            var action = ControllerContext.ActionDescriptor.ActionName;
+            return $"{controller} - {action}";
         }
         private ObjectResult internalError(string message)
         {
