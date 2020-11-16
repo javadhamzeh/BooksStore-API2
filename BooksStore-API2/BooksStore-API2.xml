@@ -13,7 +13,7 @@
             <summary>
             Get All Authors
             </summary>
-            <returns>Lisr of Authors</returns>
+            <returns>List of Authors</returns>
         </member>
         <member name="M:BooksStore_API2.Controllers.AuthorsController.GetAuthor(System.Int32)">
             <summary>

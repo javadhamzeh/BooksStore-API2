@@ -51,7 +51,7 @@ namespace BooksStore_API2.Controllers
             }
             catch (Exception e)
             {
-                return internalError($"{location}:{e.Message} - {e.InnerException}");
+                return InternalError($"{location}:{e.Message} - {e.InnerException}");
             }
         }
         /// <summary>
@@ -80,7 +80,7 @@ namespace BooksStore_API2.Controllers
             }
             catch (Exception e)
             {
-                return internalError($"{location}:{e.Message} - {e.InnerException}");
+                return InternalError($"{location}:{e.Message} - {e.InnerException}");
             }
         }
         /// <summary>
@@ -113,7 +113,7 @@ namespace BooksStore_API2.Controllers
                 var isSuccess = await _bookRepository.Create(book);
                 if(!isSuccess)
                 {
-                    return internalError($"{location}: Creation failed");
+                    return InternalError($"{location}: Creation failed");
                 }
                 _logger.LogInfo($"{location}: Creation was successfull");
                 _logger.LogInfo($"{location}:{book}");
@@ -121,7 +121,7 @@ namespace BooksStore_API2.Controllers
             }
             catch (Exception e)
             {
-                return internalError($"{location}:{e.Message} - {e.InnerException}");
+                return InternalError($"{location}:{e.Message} - {e.InnerException}");
             }
         }
         /// <summary>
@@ -161,7 +161,7 @@ namespace BooksStore_API2.Controllers
                 var isSuccess = await _bookRepository.Update(book);
                 if(!isSuccess)
                 {
-                    return internalError($"{location}: Update failed for record with id:{id}");
+                    return InternalError($"{location}: Update failed for record with id:{id}");
                 }
                 _logger.LogInfo($"{location}: Record with is: {id} successfully updated");
                 return NoContent();
@@ -169,7 +169,7 @@ namespace BooksStore_API2.Controllers
             }
             catch (Exception e)
             {
-                return internalError($"{location}: {e.Message} - {e.InnerException}");
+                return InternalError($"{location}: {e.Message} - {e.InnerException}");
             }
         }
 
@@ -200,14 +200,14 @@ namespace BooksStore_API2.Controllers
                 var isSuccess = await _bookRepository.Delete(book);
                 if(!isSuccess)
                 {
-                    return internalError($"{location}: Delete failed for record with id: {id}");
+                    return InternalError($"{location}: Delete failed for record with id: {id}");
                 }
                 _logger.LogInfo($"{location}: Record with id: {id} successfully deleted");
                 return NoContent();
             }
             catch(Exception e)
             {
-                return internalError($"{location}: {e.Message} - {e.InnerException}");
+                return InternalError($"{location}: {e.Message} - {e.InnerException}");
             }
         }
 
@@ -217,7 +217,7 @@ namespace BooksStore_API2.Controllers
             var action = ControllerContext.ActionDescriptor.ActionName;
             return $"{controller} - {action}";
         }
-        private ObjectResult internalError(string message)
+        private ObjectResult InternalError(string message)
         {
             _logger.LogError(message);
             return StatusCode(500, "Something went wrong. Please contact the Administrator");
