@@ -1,8 +1,9 @@
 ﻿@page "/authors/edit/{Id}"
+@using Blazored.Toast.Services
 @attribute [Authorize(Roles = "Administrator")]
 @inject IAuthorRepository _repo;
 @inject NavigationManager _navManager;
-
+@inject IToastService _toastService;
 
 <h3 class="card-title">Edit Author</h3>
 <br/>
@@ -63,6 +64,7 @@ else
         bool isSuccess = await _repo.Update(Endpoints.AuthorsEndpoint, Model,Model.Id);
         if (isSuccess)
         {
+            _toastService.ShowWarning("Author Updated Successfully","");
             BackToList();
         }
         else

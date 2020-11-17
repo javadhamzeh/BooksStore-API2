@@ -72,18 +72,29 @@ namespace BookStore_UI.Service
 
         public async Task<IList<T>> Get(string url)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-            var client = _client.CreateClient();
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("bearer", await GetBearerToken());
-            HttpResponseMessage response = await client.SendAsync(request);
-
-            if(response.StatusCode == System.Net.HttpStatusCode.OK)
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<IList<T>>(content);
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                var client = _client.CreateClient();
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("bearer", await GetBearerToken());
+                HttpResponseMessage response = await client.SendAsync(request);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<IList<T>>(content);
+                }
+                else
+                {
+                    return null;
+                }
             }
-            return null;
+            catch (Exception)
+            {
+                return null;
+            }
+           
         }
 
         public async Task<bool> Update(string url, T obj, int id)

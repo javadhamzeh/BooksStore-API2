@@ -1,7 +1,9 @@
 ﻿@page "/authors/delete/{Id}"
+@using Blazored.Toast.Services
 @attribute [Authorize(Roles = "Administrator")]
 @inject IAuthorRepository _repo;
 @inject NavigationManager _navManager;
+@inject IToastService _toastService;
 
 <h3 class="card-title">Are You Sure You Want to Delete This Record?</h3>
 <br />
@@ -11,6 +13,7 @@
 {
     <ErrorMessage Message="Something Went Wrong With Operation" />
 }
+
 else
 {
     <div class="col-md-4">
@@ -84,6 +87,7 @@ else
         bool isSuccess = await _repo.Delete(Endpoints.AuthorsEndpoint, Model.Id);
         if (isSuccess)
         {
+            _toastService.ShowError("Author Deleted Successfully");
             BackToList();
         }
         else
