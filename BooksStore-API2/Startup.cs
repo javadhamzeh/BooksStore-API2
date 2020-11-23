@@ -46,7 +46,7 @@ namespace BooksStore_API2
             services.AddCors(o =>
             {
                 o.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
+                    builder => builder.WithOrigins("localhost:44320", "localhost:44384")
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
