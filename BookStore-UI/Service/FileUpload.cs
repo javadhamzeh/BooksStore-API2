@@ -42,7 +42,7 @@ namespace BookStore_UI.Service
                     ms.WriteTo(fs);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -58,7 +58,7 @@ namespace BookStore_UI.Service
                     msFile.WriteTo(fs);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw;
             }
