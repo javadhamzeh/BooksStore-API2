@@ -34,10 +34,6 @@ namespace BookStore_UI.WASM.Service
         public async Task<bool> Login(LoginModel user)
         {
             var response = await _client.PostAsJsonAsync(Endpoints.LoginEndpoint,user);
-            var request = new HttpRequestMessage(HttpMethod.Post
-               , Endpoints.LoginEndpoint);
-
-
             if (!response.IsSuccessStatusCode)
             {
                 return false;
