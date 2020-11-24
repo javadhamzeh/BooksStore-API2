@@ -46,7 +46,7 @@ namespace BooksStore_API2
             services.AddCors(o =>
             {
                 o.AddPolicy("CorsPolicy",
-                    builder => builder.WithOrigins("localhost:44320", "localhost:44384")
+                    builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
@@ -112,13 +112,14 @@ namespace BooksStore_API2
             });
             app.UseHttpsRedirection();
 
-            app.UseCors("CorPolicy");
-
+            app.UseCors("CorsPolicy");
+            
             SeedData.Seed(userManager, roleManager).Wait();
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
