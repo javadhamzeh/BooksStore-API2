@@ -1,11 +1,9 @@
 ﻿@page "/books/edit/{Id}"
-@using Blazored.Toast.Services
 
 @attribute [Authorize(Roles = "Administrator")]
 
 @inject IBookRepository _repo
 @inject IAuthorRepository _authRepo
-@inject IFileUpload _fileUpload
 @inject NavigationManager _navManager
 @inject IToastService _toastService
 
@@ -68,7 +66,7 @@ else
             }
             else if (!string.IsNullOrWhiteSpace(Model.Image))
             {
-                <img src="uploads/@Model.Image" style="height: 100px; width:100px" />
+                <img src="@string.Format("data:image/png;base64,{0}",Model.File)" style="height: 100px; width:100px" />
             }
 
         </div>
@@ -113,20 +111,18 @@ else
                 var ext = Path.GetExtension(file.Name);
                 var picId = Guid.NewGuid().ToString().Replace("-", "");
                 var pickName = $"{picId}{ext}";
-                //Remove Old picture
-                _fileUpload.RemoveFile(Model.Image);
-                _fileUpload.UploadFile(file,msFile, pickName);
+           
                 Model.Image = pickName;
+                Model.File = Convert.ToBase64String(msFile.ToArray());
             }
             else if (isFileChanged && file == null)
             {
-                //Remove Old picture
-                _fileUpload.RemoveFile(Model.Image);
                 Model.Image = string.Empty;
             }
             isSuccess = await _repo.Update(Endpoints.BooksEndpoint, Model, Model.Id);
             if (isSuccess)
             {
+                _toastService.ShowWarning("Book Updated Successfully","");
                 BackToList();
             }
         }

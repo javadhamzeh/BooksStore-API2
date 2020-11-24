@@ -1,6 +1,7 @@
 ﻿@page "/authors/view/{Id}"
 @inject IAuthorRepository _repo;
 @inject NavigationManager _navManager;
+@inject IToastService _toastService;
 
 <h3>View Author Details</h3>
 
@@ -39,6 +40,7 @@ else
         }
         else
         {
+           
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
                     <h4>Author's Books</h4>
@@ -79,6 +81,7 @@ else
     {
         int id = Convert.ToInt32(Id);
         Model = await _repo.Get(Endpoints.AuthorsEndpoint, id);
+        _toastService.ShowInfo($"Now Viewing {Model.Firstname} {Model.Lastname}", "");
     }
 
     private void BackToList()

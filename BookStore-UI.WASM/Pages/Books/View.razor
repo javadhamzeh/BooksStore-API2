@@ -1,6 +1,7 @@
 ﻿@page "/books/view/{Id}"
 @inject IBookRepository _repo
 @inject NavigationManager _navManager
+@inject IToastService _toastService
 
 <h3>View Book Details</h3>
 
@@ -62,7 +63,7 @@ else
             </table>
         </div>
         <div class="col-4">
-            <img src="uploads/@Model.Image" style="height: 300px; width:300px"/>
+            <img src="@string.Format("data:image/png;base64,{0}",Model.File)" style="height: 300px; width:300px"/>
             <h3 class="text-center text-info">@string.Format("{0:C}",Model.Price)</h3>
         </div>
     </div>
@@ -92,6 +93,7 @@ else
     {
         int id = Convert.ToInt32(Id);
         Model = await _repo.Get(Endpoints.BooksEndpoint, id);
+        _toastService.ShowInfo($"Now Viewing {Model.Title}","");
     }
 
     private void BackToList()

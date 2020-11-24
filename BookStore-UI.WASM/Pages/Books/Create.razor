@@ -5,7 +5,6 @@
 @inject IBookRepository _repo
 @inject IAuthorRepository _authorRepo
 @inject NavigationManager _navManager
-@inject IFileUpload _fileUpload
 @inject IToastService _ToastService
 
 
@@ -92,8 +91,9 @@
                 var ext = Path.GetExtension(file.Name);
                 var picId = Guid.NewGuid().ToString().Replace("-", "");
                 var pickName = $"{picId}{ext}";
-                _fileUpload.UploadFile(file, msFile,pickName);
+                
                 Model.Image = pickName;
+                Model.File = Convert.ToBase64String(msFile.ToArray());
             }
 
             isSuccess = await _repo.Create(Endpoints.BooksEndpoint, Model);
@@ -110,8 +110,8 @@
         file = files.FirstOrDefault();
         if (file != null)
         {
-            var name = file.Name;
-            if (name.Contains("jpg") || name.Contains("png") || name.Contains("jpeg"))
+            var ext = Path.GetExtension(file.Name);
+            if (ext.Contains("jpg") || ext.Contains("png") || ext.Contains("jpeg"))
             {
                 msFile = new MemoryStream();
                 await file.Data.CopyToAsync(msFile);

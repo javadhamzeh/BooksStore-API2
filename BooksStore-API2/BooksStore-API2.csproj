@@ -12,6 +12,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Uploads\f47edf18429f4c49adcf8b57d63934d3.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Uploads\f47edf18429f4c49adcf8b57d63934d3.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="BlazorInputFile" Version="0.2.0" />

@@ -44,6 +44,14 @@ namespace BooksStore_API2.Services
             return book;
         }
 
+        public async Task<string> GetImageFileName(int id)
+        {
+            var book = await _db.Books
+                .AsNoTracking()
+                .FirstOrDefaultAsync(Queryable => Queryable.Id == id);
+            return book.Image;
+        }
+
         public async Task<bool> isExist(int id)
         {
             var isExists = await _db.Books.AnyAsync(q => q.Id == id);
